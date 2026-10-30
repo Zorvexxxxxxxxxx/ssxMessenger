@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
+<title>ssxMessenger</title>
+<style>
+:root{--bg:#0b1120;--panel:#111a2b;--panel2:#172338;--line:#26344b;--text:#edf3ff;--muted:#8ea0bb;--accent:#6c8cff;--accent2:#8b6cff;--bubble:#1c2b42;--mine:#344f91;--good:#5ed6a0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 Inter,system-ui,-apple-system,Segoe UI,sans-serif;height:100dvh;overflow:hidden}button,input,textarea{font:inherit}button{cursor:pointer;color:inherit;border:0}.app{height:100dvh;display:grid;grid-template-columns:76px 340px 1fr;max-width:1600px;margin:auto;background:var(--panel);box-shadow:0 0 80px #0005}
+.rail{background:#0e1728;border-right:1px solid var(--line);display:flex;align-items:center;flex-direction:column;padding:18px 10px;gap:13px}.logo{width:46px;height:46px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;font-weight:900;font-size:17px;box-shadow:0 8px 24px #6c8cff55;margin-bottom:18px}.nav{width:48px;height:48px;border-radius:15px;background:transparent;color:var(--muted);font-size:20px}.nav.active,.nav:hover{background:#253654;color:white}.rail .spacer{flex:1}
+.sidebar{border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0}.side-head{padding:22px 20px 14px;display:flex;align-items:center;justify-content:space-between}.brand{font-size:21px;font-weight:800;letter-spacing:-.7px}.brand span{color:var(--accent)}.icon-btn{background:var(--panel2);border:1px solid var(--line);width:38px;height:38px;border-radius:13px;font-size:18px}.search{margin:0 16px 13px;background:#0c1525;border:1px solid var(--line);border-radius:14px;padding:0 13px;display:flex;align-items:center;gap:9px;color:var(--muted)}.search input{background:none;border:0;outline:0;color:var(--text);width:100%;padding:12px 0}.filters{display:flex;gap:7px;padding:0 16px 12px;overflow:auto}.chip{padding:7px 12px;border-radius:20px;background:transparent;color:var(--muted);white-space:nowrap;font-size:12px}.chip.active{background:#263858;color:#dce7ff}.chat-list{overflow:auto;padding:0 8px 14px}.chat-item{display:flex;gap:12px;padding:12px;border-radius:15px;align-items:center;cursor:pointer}.chat-item:hover,.chat-item.selected{background:#1b2a40}.avatar{width:48px;height:48px;flex:0 0 48px;border-radius:17px;background:linear-gradient(145deg,#4e78b9,#8366bd);display:grid;place-items:center;font-weight:800;font-size:16px;color:white;position:relative}.avatar.green{background:linear-gradient(145deg,#259d89,#6cbf91)}.avatar.orange{background:linear-gradient(145deg,#d17a4c,#c6a052)}.avatar.pink{background:linear-gradient(145deg,#b45b94,#735dc4)}.online:after{content:"";position:absolute;width:10px;height:10px;background:var(--good);border:2px solid var(--panel);border-radius:50%;right:0;bottom:0}.chat-meta{min-width:0;flex:1}.chat-top{display:flex;justify-content:space-between;gap:8px}.chat-name{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.time,.preview{color:var(--muted);font-size:12px}.preview{margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.unread{background:var(--accent);color:white;border-radius:12px;min-width:20px;text-align:center;padding:1px 6px;font-size:11px}
+.main{display:flex;flex-direction:column;min-width:0;background:radial-gradient(ellipse at 50% 0%,#1a2942 0,transparent 60%),var(--bg)}.empty{margin:auto;text-align:center;color:var(--muted);max-width:300px;padding:30px}.empty .big{font-size:55px;margin-bottom:12px}.conversation{height:100%;display:flex;flex-direction:column;min-height:0}.topbar{height:76px;flex:0 0 76px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 24px;gap:13px;background:#111a2bdc;backdrop-filter:blur(16px)}.top-info{flex:1}.top-info strong{display:block}.top-info small{color:var(--good)}.top-actions{display:flex;gap:8px}.messages{flex:1;overflow:auto;padding:24px clamp(16px,5vw,70px);display:flex;flex-direction:column;gap:11px}.day{text-align:center;color:var(--muted);font-size:11px;margin:6px auto 12px;background:#18253a;padding:5px 12px;border-radius:20px}.msg{max-width:min(72%,560px);align-self:flex-start;background:var(--bubble);padding:10px 13px;border-radius:16px 16px 16px 5px;box-shadow:0 4px 14px #0002;overflow-wrap:anywhere}.msg.mine{align-self:flex-end;background:var(--mine);border-radius:16px 16px 5px 16px}.msg .stamp{font-size:10px;color:#c2cce0;text-align:right;margin:4px 0 -3px}.composer{padding:14px 22px 20px;display:flex;align-items:flex-end;gap:10px;background:#111a2bdc;border-top:1px solid var(--line)}.compose-box{flex:1;background:#0c1525;border:1px solid var(--line);border-radius:17px;padding:10px 14px;display:flex;align-items:flex-end;gap:10px}.compose-box textarea{resize:none;max-height:120px;min-height:24px;outline:0;border:0;background:none;color:var(--text);width:100%}.send{width:45px;height:45px;border-radius:15px;background:linear-gradient(135deg,var(--accent),var(--accent2));font-size:18px;box-shadow:0 7px 20px #6c8cff44}.attach{background:none;color:var(--muted);font-size:20px;padding:4px}.welcome-pill{margin:0 auto 12px;background:#1a2940;border:1px solid var(--line);color:var(--muted);padding:8px 13px;border-radius:12px;font-size:12px}
+.modal-back{position:fixed;inset:0;background:#020611aa;display:none;place-items:center;padding:18px;z-index:5}.modal-back.show{display:grid}.modal{width:min(440px,100%);background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 25px 80px #0008}.modal h2{margin:0 0 16px}.field{display:block;margin:12px 0;color:var(--muted);font-size:13px}.field input,.field textarea,.field select{display:block;width:100%;margin-top:6px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#0c1525;color:var(--text);outline:0}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}.primary,.secondary{padding:10px 15px;border-radius:12px}.primary{background:var(--accent);color:white}.secondary{background:var(--panel2);color:var(--text)}.profile{display:flex;gap:14px;align-items:center;padding:12px 0 20px}.profile .avatar{width:64px;height:64px;flex-basis:64px;font-size:21px}.setting-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid var(--line)}.setting-row small{display:block;color:var(--muted)}.switch{accent-color:var(--accent);width:19px;height:19px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#253653;color:white;padding:10px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:.2s;z-index:9}.toast.show{opacity:1}.mobile-back{display:none}
+@media(max-width:800px){.app{grid-template-columns:58px minmax(0,1fr)}.rail{padding:12px 5px}.nav{width:44px;height:44px}.sidebar{border-right:0}.main{display:none}.app.chat-open{grid-template-columns:1fr}.app.chat-open .rail,.app.chat-open .sidebar{display:none}.app.chat-open .main{display:flex}.mobile-back{display:inline-block}.side-head{padding:16px}.brand{font-size:19px}}
+@media(min-width:801px){.mobile-back{display:none}}
+
+.auth-gate{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:20px;background:radial-gradient(ellipse at 50% 0%,#253b65 0,transparent 58%),#080e1b}
+.auth-card{width:min(420px,100%);padding:30px;background:#111a2b;border:1px solid #2a3a55;border-radius:26px;box-shadow:0 28px 90px #0009;text-align:center}
+.auth-logo{width:62px;height:62px;margin:0 auto 16px;border-radius:20px;display:grid;place-items:center;background:linear-gradient(135deg,#6c8cff,#8b6cff);font-weight:900;font-size:21px}
+.auth-card h1{margin:0;font-size:27px;letter-spacing:-1px}.auth-card h1 span{color:#8ba4ff}.auth-sub{color:#91a2bd;margin:9px 0 24px;font-size:13px}
+.oauth-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:11px;padding:13px 15px;margin:10px 0;border-radius:14px;background:#192840;border:1px solid #30425e;color:#f2f6ff;font-weight:700}
+.oauth-btn:hover{background:#223653}.oauth-mark{font-weight:900;font-size:19px}.oauth-y{color:#fc3f1d}.oauth-vk{color:#4c9aff}
+.demo-btn{margin-top:12px;background:transparent;color:#9eafd0;font-size:12px;padding:9px}.auth-note{font-size:11px;color:#7486a3;margin-top:17px;line-height:1.5}
+.auth-error{display:none;color:#ff9d9d;font-size:12px;margin-top:12px}
+</style>
+</head>
+<body>
+
+<div class="auth-gate" id="authGate">
+  <div class="auth-card">
+    <div class="auth-logo">ssx</div>
+    <h1>ssx<span>Messenger</span></h1>
+    <p class="auth-sub">Общайся. Делись. Оставайся на связи.</p>
+    <button class="oauth-btn" id="yandexLogin"><span class="oauth-mark oauth-y">Я</span> Продолжить с Яндекс ID</button>
+    <button class="oauth-btn" id="vkLogin"><span class="oauth-mark oauth-vk">VK</span> Продолжить через ВКонтакте</button>
+    <button class="demo-btn" id="demoLogin">Посмотреть демоверсию без входа</button>
+    <div class="auth-error" id="authError"></div>
+    <p class="auth-note">Вход через Яндекс и VK откроется после настройки OAuth-провайдеров в Supabase. Пароли от социальных сетей ssxMessenger не получает.</p>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <aside class="rail">
+    <div class="logo">ssx</div>
+    <button class="nav active" title="Чаты" data-tab="all">▤</button>
+    <button class="nav" title="Контакты" data-tab="contacts">♙</button>
+    <button class="nav" title="Избранное" data-tab="saved">★</button>
+    <button class="nav" title="Звонки (макет)" data-tab="calls">⌕</button>
+    <div class="spacer"></div>
+    <button class="nav" title="Настройки" id="settingsBtn">⚙</button>
+    <button class="nav" title="Профиль" id="profileBtn">◉</button>
+  </aside>
+  <aside class="sidebar">
+    <div class="side-head"><div class="brand">ssx<span>Messenger</span></div><button class="icon-btn" id="newChatBtn" title="Новый чат">＋</button></div>
+    <label class="search">⌕ <input id="searchInput" placeholder="Поиск сообщений и чатов"></label>
+    <div class="filters"><button class="chip active" data-filter="all">Все</button><button class="chip" data-filter="unread">Непрочитанные</button><button class="chip" data-filter="groups">Группы</button></div>
+    <div class="chat-list" id="chatList"></div>
+  </aside>
+  <main class="main" id="main"><div class="empty"><div class="big">✦</div><h2>Твой ssxMessenger</h2><p>Выбери чат слева или создай новый, чтобы начать общение.</p><div class="welcome-pill">Быстро · Удобно · Бесплатно</div></div></main>
+</div>
+<div class="modal-back" id="modalBack"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const $=s=>document.querySelector(s);
+
+// Заполним эти два значения после создания проекта Supabase.
+// Используй Project URL и Publishable (anon) key. Никогда не вставляй сюда secret/service_role key.
+const SUPABASE_URL = "https://amzhlebfgxuatbloyfth.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_kxDU3-PgAyuwu8Qy0SbG3w_Es7aS_WH";
+const OAUTH_PROVIDERS = { yandex: "custom:yandex", vk: "custom:vk" };
+let supabaseClient = null;
+const authConfigured = () => window.supabase && SUPABASE_URL.startsWith("https://") &&
+  !SUPABASE_URL.includes("ВСТАВЬТЕ") && SUPABASE_ANON_KEY &&
+  !SUPABASE_ANON_KEY.includes("ВСТАВЬТЕ");
+if (authConfigured()) {
+  supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  supabaseClient.auth.getSession().then(({data}) => {
+    if (data.session) $("#authGate").style.display = "none";
+  });
+  supabaseClient.auth.onAuthStateChange((_event, session) => {
+    if (session) $("#authGate").style.display = "none";
+  });
+}
+async function socialLogin(provider) {
+  const errorBox = $("#authError");
+  errorBox.style.display = "none";
+  if (!supabaseClient) {
+    errorBox.textContent = "Сначала добавим Project URL и Publishable key Supabase в этот HTML и настроим OAuth-провайдер.";
+    errorBox.style.display = "block";
+    return;
+  }
+  const {error} = await supabaseClient.auth.signInWithOAuth({
+    provider,
+    options: { redirectTo: window.location.origin + window.location.pathname }
+  });
+  if (error) {
+    errorBox.textContent = "Не удалось начать вход: " + error.message;
+    errorBox.style.display = "block";
+  }
+}
+$("#yandexLogin").onclick = () => socialLogin(OAUTH_PROVIDERS.yandex);
+$("#vkLogin").onclick = () => socialLogin(OAUTH_PROVIDERS.vk);
+$("#demoLogin").onclick = () => $("#authGate").style.display = "none";
+
+const seed=[
+ {id:1,name:"Алексей",initials:"А",color:"",type:"person",online:true,unread:2,messages:[["Привет! Как тебе новый ssxMessenger?","them","10:42"],["Выглядит очень круто 🔥","me","10:43"],["Можно будет добавить звонки и каналы?","them","10:45"]]},
+ {id:2,name:"Дизайн-команда",initials:"ДК",color:"green",type:"group",online:false,unread:0,messages:[["Закинул новый вариант интерфейса","them","Вчера"],["Посмотрим сегодня","me","Вчера"]]},
+ {id:3,name:"Мария",initials:"М",color:"pink",type:"person",online:true,unread:0,messages:[["Скинешь файл позже?","them","Вчера"]]},
+ {id:4,name:"Избранное",initials:"★",color:"orange",type:"saved",online:false,unread:0,messages:[["Здесь можно хранить заметки и важные сообщения.","them","Пн"]]}
+];
+let chats=JSON.parse(localStorage.getItem("ssx_chats")||"null")||seed;
+let activeId=null,filter="all",tab="all",dark=true;
+function persist(){localStorage.setItem("ssx_chats",JSON.stringify(chats))}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function toast(s){let t=$("#toast");t.textContent=s;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2100)}
+function avatar(c){return `<div class="avatar ${c.color||""} ${c.online?"online":""}">${esc(c.initials||c.name.slice(0,1))}</div>`}
+function last(c){return c.messages[c.messages.length-1]?.[0]||"Нет сообщений"}
+function renderList(){
+ let q=$("#searchInput").value.toLowerCase();
+ let list=chats.filter(c=>(filter!=="unread"||c.unread>0)&&(filter!=="groups"||c.type==="group")&&(tab!=="contacts"||c.type==="person")&&(tab!=="saved"||c.type==="saved")&&(tab!=="calls"||false)&&(c.name.toLowerCase().includes(q)||last(c).toLowerCase().includes(q)));
+ $("#chatList").innerHTML=list.map(c=>`<div class="chat-item ${activeId===c.id?"selected":""}" data-id="${c.id}">${avatar(c)}<div class="chat-meta"><div class="chat-top"><span class="chat-name">${esc(c.name)}</span><span class="time">${esc(c.messages.at(-1)?.[2]||"")}</span></div><div class="chat-top"><span class="preview">${esc(last(c))}</span>${c.unread?`<span class="unread">${c.unread}</span>`:""}</div></div></div>`).join("")||'<div class="empty">Ничего не найдено</div>';
+ document.querySelectorAll(".chat-item").forEach(el=>el.onclick=()=>openChat(+el.dataset.id));
+}
+function openChat(id){activeId=id;let c=chats.find(x=>x.id===id);c.unread=0;persist();renderList();$("#app").classList.add("chat-open");
+ $("#main").innerHTML=`<section class="conversation"><header class="topbar"><button class="icon-btn mobile-back" id="backBtn">‹</button>${avatar(c)}<div class="top-info"><strong>${esc(c.name)}</strong><small>${c.online?"в сети":c.type==="group"?"группа":"был(а) недавно"}</small></div><div class="top-actions"><button class="icon-btn" title="Поиск в чате" id="findBtn">⌕</button><button class="icon-btn" title="Информация" id="infoBtn">⋯</button></div></header><div class="messages" id="messages"><div class="day">Сегодня</div>${c.messages.map(m=>`<div class="msg ${m[1]==="me"?"mine":""}">${esc(m[0])}<div class="stamp">${esc(m[2])} ${m[1]==="me"?"✓✓":""}</div></div>`).join("")}</div><form class="composer" id="sendForm"><button type="button" class="attach" id="attachBtn" title="Вложение">＋</button><div class="compose-box"><button type="button" class="attach" id="emojiBtn" title="Эмодзи">☺</button><textarea id="messageInput" rows="1" placeholder="Написать сообщение…"></textarea></div><button class="send" title="Отправить">➤</button></form></section>`;
+ $("#backBtn").onclick=()=>$("#app").classList.remove("chat-open");
+ $("#sendForm").onsubmit=e=>{e.preventDefault();let inp=$("#messageInput"),v=inp.value.trim();if(!v)return;c.messages.push([v,"me",new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"})]);persist();openChat(id)};
+ $("#emojiBtn").onclick=()=>{$("#messageInput").value+=" 😊";$("#messageInput").focus()};
+ $("#attachBtn").onclick=()=>toast("Вложения подключаются через серверную часть");
+ $("#findBtn").onclick=()=>{let q=prompt("Найти текст в этом чате:");if(q){let m=c.messages.find(x=>x[0].toLowerCase().includes(q.toLowerCase()));toast(m?"Сообщение найдено: "+m[0]:"Совпадений нет")}};
+ $("#infoBtn").onclick=()=>showInfo(c);
+ let box=$("#messages");box.scrollTop=box.scrollHeight;$("#messageInput").focus();
+}
+function modal(content){$("#modal").innerHTML=content;$("#modalBack").classList.add("show")}
+function closeModal(){$("#modalBack").classList.remove("show")}
+$("#modalBack").onclick=e=>{if(e.target.id==="modalBack")closeModal()};
+function showInfo(c){modal(`<h2>${esc(c.name)}</h2><div class="profile">${avatar(c)}<div><b>${c.type==="group"?"Групповой чат":"Контакт"}</b><small style="display:block;color:var(--muted)">Локальный демонстрационный профиль</small></div></div><p style="color:var(--muted)">Здесь позже появятся общие медиафайлы, участники, уведомления и настройки чата.</p><div class="modal-actions"><button class="secondary" id="close">Закрыть</button></div>`);$("#close").onclick=closeModal}
+$("#newChatBtn").onclick=()=>modal(`<h2>Создать чат</h2><label class="field">Имя контакта или группы<input id="newName" placeholder="Например, Друзья"></label><label class="field">Тип<select id="newType"><option value="person">Личный чат</option><option value="group">Группа</option></select></label><div class="modal-actions"><button class="secondary" id="cancel">Отмена</button><button class="primary" id="create">Создать</button></div>`),$("#cancel").onclick=closeModal,$("#create").onclick=()=>{let n=$("#newName").value.trim();if(!n)return toast("Введи название");let id=Date.now();chats.unshift({id,name:n,initials:n.slice(0,2).toUpperCase(),color:"pink",type:$("#newType").value,online:false,unread:0,messages:[]});persist();closeModal();renderList();openChat(id)};
+$("#settingsBtn").onclick=()=>modal(`<h2>Настройки</h2><div class="setting-row"><div><b>Внешний вид</b><small>Тёмная тема интерфейса</small></div><input class="switch" type="checkbox" id="themeSwitch" checked></div><div class="setting-row"><div><b>Уведомления</b><small>Демонстрационная настройка</small></div><input class="switch" type="checkbox" checked></div><div class="setting-row"><div><b>Язык</b><small>Русский</small></div><span>RU</span></div><p style="font-size:12px;color:var(--muted)">Настройки сохраняются в этом браузере. Для настоящих push-уведомлений понадобится сервер и разрешение устройства.</p><div class="modal-actions"><button class="primary" id="close">Готово</button></div>`),$("#close").onclick=closeModal,$("#themeSwitch").onchange=e=>{document.body.classList.toggle("light",!e.target.checked);toast("Тема будет расширена в следующей версии")};
+$("#profileBtn").onclick=()=>modal(`<h2>Мой профиль</h2><div class="profile"><div class="avatar">S</div><div><b>ssx User</b><small style="display:block;color:var(--muted)">@ssx_user</small></div></div><label class="field">Имя<input value="ssx User" id="profileName"></label><label class="field">О себе<textarea placeholder="Расскажи немного о себе"></textarea></label><div class="modal-actions"><button class="secondary" id="cancel">Закрыть</button><button class="secondary" id="logoutBtn">Выйти</button><button class="primary" id="saveProfile">Сохранить</button></div>`),$("#cancel").onclick=closeModal,$("#saveProfile").onclick=()=>{toast("Профиль сохранён локально (демо)");closeModal()},$("#logoutBtn").onclick=async()=>{if(supabaseClient) await supabaseClient.auth.signOut();closeModal();$("#authGate").style.display="grid";$("#app").classList.remove("chat-open");toast("Вы вышли из аккаунта")};
+$("#searchInput").oninput=renderList;
+document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("active",x===b));renderList()});
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));renderList();if(tab==="calls")toast("Звонки появятся после подключения WebRTC-сервера")});
+renderList();
+</script>
+</body>
+</html>
